@@ -1,0 +1,183 @@
+<div 
+class="markdown prose w-full break-words dark:prose-invert dark">
+    <h1>CEntityCondition</h1>
+    <h2>Определение класса</h2>
+<code><pre>class CEntityCondition : public CEntityConditionSimple, public CHitImmunity
+</pre></code>
+</div>
+</div></pre>
+<h2>Описание класса</h2>
+<p>Класс <code>CEntityCondition</code> отвечает за управление состоянием существа в игре, включая его здоровье,
+    силы, радиацию, токсины, психическое здоровье и мораль. Класс включает методы для изменения этих параметров, а
+    также для обновления состояния в зависимости от различных факторов, таких как удары, радиация и т.д. Класс также
+    поддерживает работу с ранами, управление возможностью получения урона и сохранение/загрузку состояния через
+    сетевые пакеты.</p>
+<hr>
+    <h2>Члены класса</h2>
+    <h3>Приватные поля</h3>
+    <ul>
+        <li><code>bool m_use_limping_state</code> - Использование состояния хромоты.</li>
+        <li><code>CEntityAlive* m_object</code> - Объект, связанный с данным состоянием.</li>
+    </ul>
+    <h3>Публичные методы</h3>
+    <h4>Конструкторы и деструкторы</h4>
+    <ul>
+        <li><code>CEntityCondition(CEntityAlive* object)</code> - Конструктор, инициализирующий объект состояния.</li>
+        <li><code>virtual ~CEntityCondition()</code> - Виртуальный деструктор.</li>
+    </ul>
+    <h4>Методы загрузки и удаления связей</h4>
+    <ul>
+        <li><code>virtual void LoadCondition(LPCSTR section)</code> - Загрузка состояния из конфигурационного файла.
+        </li>
+        <li><code>virtual void remove_links(const CObject* object)</code> - Удаление ссылок на заданный объект.</li>
+    </ul>
+    <h4>Методы сохранения и загрузки состояния</h4>
+    <ul>
+        <li><code>virtual void save(NET_Packet &amp;output_packet)</code> - Сохранение состояния в сетевой пакет.</li>
+        <li><code>virtual void load(IReader &amp;input_packet)</code> - Загрузка состояния из сетевого пакета.</li>
+    </ul>
+    <h4>Геттеры для различных состояний</h4>
+    <ul>
+        <li><code>virtual float GetSatiety() const</code> - Возвращает уровень сытости.</li>
+        <li><code>virtual float GetThirsty() const</code> - Возвращает уровень жажды.</li>
+        <li><code>virtual float GetSleepiness() const</code> - Возвращает уровень сонливости.</li>
+    </ul>
+    <h4>Инлайн геттеры</h4>
+    <ul>
+        <li><code>IC float GetPower() const</code> - Возвращает уровень силы.</li>
+        <li><code>IC float GetRadiation() const</code> - Возвращает уровень радиации.</li>
+        <li><code>IC float GetToxin() const</code> - Возвращает уровень токсинов.</li>
+        <li><code>IC float GetPsyHealth() const</code> - Возвращает уровень психического здоровья.</li>
+        <li><code>IC float GetEntityMorale() const</code> - Возвращает уровень морали существа.</li>
+        <li><code>IC float GetHealthLost() const</code> - Возвращает количество потерянного здоровья.</li>
+    </ul>
+    <h4>Изменение состояния</h4>
+    <ul>
+        <li><code>virtual bool IsLimping() const</code> - Проверяет, находится ли объект в состоянии хромоты.</li>
+        <li><code>virtual void ChangeSatiety(const float value)</code> - Изменяет уровень сытости.</li>
+        <li><code>virtual void ChangeThirsty(const float value)</code> - Изменяет уровень жажды.</li>
+        <li><code>virtual void ChangeSleepiness(const float value)</code> - Изменяет уровень сонливости.</li>
+        <li><code>virtual void ChangeHealth(const float value)</code> - Изменяет уровень здоровья.</li>
+        <li><code>virtual void ChangePower(const float value)</code> - Изменяет уровень силы.</li>
+        <li><code>virtual void ChangeRadiation(const float value)</code> - Изменяет уровень радиации.</li>
+        <li><code>virtual void ChangeToxin(const float value)</code> - Изменяет уровень токсинов.</li>
+        <li><code>virtual void ChangePsyHealth(const float value)</code> - Изменяет уровень психического здоровья.</li>
+        <li><code>virtual void ChangeAlcohol(const float value)</code> - Изменяет уровень алкоголя.</li>
+    </ul>
+    <h4>Инлайн методы управления состоянием</h4>
+    <ul>
+        <li><code>IC void MaxPower()</code> - Устанавливает силу на максимальный уровень.</li>
+        <li><code>IC void SetMaxPower(const float val)</code> - Устанавливает максимальное значение силы.</li>
+        <li><code>IC float GetMaxPower() const</code> - Возвращает максимальное значение силы.</li>
+    </ul>
+    <h4>Методы изменения различных параметров</h4>
+    <ul>
+        <li><code>void ChangeBleeding(const float percent)</code> - Изменяет скорость кровотечения.</li>
+        <li><code>void ChangeCircumspection(const float value)</code> - Изменяет уровень осторожности.</li>
+        <li><code>void ChangeEntityMorale(const float value)</code> - Изменяет уровень морали существа.</li>
+    </ul>
+    <h4>Методы работы с ранами</h4>
+    <ul>
+        <li><code>virtual CWound* ConditionHit(SHit* pHDS)</code> - Обработка попадания удара.</li>
+    </ul>
+    <h4>Обновление состояния</h4>
+    <ul>
+        <li><code>virtual void UpdateCondition()</code> - Обновление состояния.</li>
+        <li><code>void UpdateWounds()</code> - Обновление ран.</li>
+        <li><code>void UpdateConditionTime()</code> - Обновление времени состояния.</li>
+        <li><code>IC void SetConditionDeltaTime(float DeltaTime)</code> - Установка изменения времени состояния.</li>
+    </ul>
+    <h3>Статические методы</h3>
+    <ul>
+        <li><code>static float <a href="./Methods/HitArmorEffect.html">HitArmorEffect</a>(float hit_power, ALife::EHitType hit_type, float hit_fraction, float AP, float armor, bool&amp; add_wound)</code>
+            - Рассчитывает влияние брони на полученный урон при попадании.</li>
+        <li><code>static float <a href="./Methods/HitArmorEffect.html">HitArmorEffect</a>(float hit_power, ALife::EHitType hit_type, float hit_fraction, float weak_hit_fraction, float AP, float armor, bool&amp; add_wound)</code>
+            - Рассчитывает влияние брони на полученный урон при попадании с учетом того, что слабый удар нанесёт хоть какой-то урон</li>
+    </ul>
+    <h3>Методы получения информации о последнем ударе</h3>
+    <ul>
+        <li><code>CObject* GetWhoHitLastTime()</code> - Возвращает объект, который нанес последний удар.</li>
+        <li><code>u16 GetWhoHitLastTimeID()</code> - Возвращает ID объекта, который нанес последний удар.</li>
+    </ul>
+    <h3>Методы добавления раны</h3>
+    <ul>
+        <li><code>CWound* AddWound(float hit_power, ALife::EHitType hit_type, u16 element)</code> - Добавляет рану.</li>
+    </ul>
+    <h3>Инлайн методы для управления повреждаемостью</h3>
+    <ul>
+        <li><code>IC void SetCanBeHarmedState(bool CanBeHarmed)</code> - Устанавливает состояние возможности получения
+            урона.</li>
+        <li><code>IC bool CanBeHarmed() const</code> - Проверяет, может ли объект получать урон.</li>
+    </ul>
+    <h3>Методы очистки ран</h3>
+    <ul>
+        <li><code>void ClearWounds()</code> - Очищает все раны.</li>
+    </ul>
+    <h3>Защищенные методы обновления</h3>
+    <ul>
+        <li><code>void UpdateHealth()</code> - Обновление здоровья.</li>
+        <li><code>void UpdatePower()</code> - Обновление силы.</li>
+        <li><code>void UpdateSatiety(float k=1.0f)</code> - Обновление сытости.</li>
+        <li><code>void UpdateThirsty(float k=1.0f)</code> - Обновление жажды.</li>
+        <li><code>void UpdateRadiation(float k=1.0f)</code> - Обновление радиации.</li>
+        <li><code>void UpdateToxin(float k=1.0f)</code> - Обновление токсинов.</li>
+        <li><code>void UpdatePsyHealth(float k=1.0f)</code> - Обновление психического здоровья.</li>
+        <li><code>void UpdateSleepiness(float k=1.0f)</code> - Обновление сонливости.</li>
+        <li><code>void UpdateEntityMorale()</code> - Обновление морали существа.</li>
+    </ul>
+    <h3>Защищенные структуры и члены</h3>
+    <h4>Структура SConditionChangeV</h4>
+    <ul>
+        <li><code>float m_fV_Radiation</code> - Изменение радиации.</li>
+        <li><code>float m_fV_PsyHealth</code> - Изменение психического здоровья.</li>
+        <li><code>float m_fV_Circumspection</code> - Изменение осторожности.</li>
+        <li><code>float m_fV_EntityMorale</code> - Изменение морали существа.</li>
+        <li><code>float m_fV_RadiationHealth</code> - Изменение здоровья под воздействием радиации.</li>
+        <li><code>float m_fV_Bleeding</code> - Изменение скорости кровотечения.</li>
+        <li><code>float m_fV_WoundIncarnation</code> - Изменение заживления ран.</li>
+        <li><code>float m_fV_HealthRestore</code> - Восстановление здоровья.</li>
+        <li><code>float m_fV_Toxin</code> - Изменение уровня токсинов.</li>
+        <li><code>float m_fV_ToxinHealth</code> - Изменение здоровья под воздействием токсинов.</li>
+        <li><code>void load(LPCSTR sect, LPCSTR prefix)</code> - Загрузка параметров из секции конфигурационного файла.
+        </li>
+    </ul>
+    <h4>Векторы и переменные</h4>
+    <ul>
+        <li><code>DEFINE_VECTOR(CWound*, WOUND_VECTOR, WOUND_VECTOR_IT)</code> - Определение вектора ран.</li>
+        <li><code>WOUND_VECTOR m_WoundVector</code> - Вектор ран.</li>
+        <li><code>float m_fThirsty</code> - Уровень жажды.</li>
+        <li><code>float m_fSatiety</code> - Уровень сытости.</li>
+        <li><code>float m_fPower</code> - Уровень силы.</li>
+        <li><code>float m_fRadiation</code> - Уровень радиации.</li>
+        <li><code>float m_fToxin</code> - Уровень токсинов.</li>
+        <li><code>float m_fPsyHealth</code> - Уровень психического здоровья.</li>
+        <li><code>float m_fEntityMorale</code> - Уровень морали существа.</li>
+        <li><code>float m_fSleepiness</code> - Уровень сонливости.</li>
+        <li><code>float m_fPowerMax</code> - Максимальный уровень силы.</li>
+        <li><code>float m_fRadiationMax</code> - Максимальный уровень радиации.</li>
+        <li><code>float m_fToxinMax</code> - Максимальный уровень токсинов.</li>
+        <li><code>float m_fPsyHealthMax</code> - Максимальный уровень психического здоровья.</li>
+        <li><code>float m_fEntityMoraleMax</code> - Максимальный уровень морали существа.</li>
+        <li><code>float m_fDeltaHealth</code> - Изменение уровня здоровья.</li>
+        <li><code>float m_fDeltaPower</code> - Изменение уровня силы.</li>
+        <li><code>float m_fDeltaRadiation</code> - Изменение уровня радиации.</li>
+        <li><code>float m_fDeltaPsyHealth</code> - Изменение уровня психического здоровья.</li>
+        <li><code>float m_fDeltaToxin</code> - Изменение уровня токсинов.</li>
+        <li><code>float m_fDeltaCircumspection</code> - Изменение уровня осторожности.</li>
+        <li><code>float m_fDeltaEntityMorale</code> - Изменение уровня морали существа.</li>
+        <li><code>SConditionChangeV m_change_v</code> - Параметры изменения состояния.</li>
+        <li><code>float m_fMinWoundSize</code> - Минимальный размер раны.</li>
+        <li><code>bool m_bIsBleeding</code> - Флаг кровотечения.</li>
+        <li><code>float m_fHealthHitPart</code> - Часть урона, влияющая на здоровье.</li>
+        <li><code>float m_fPowerHitPart</code> - Часть урона, влияющая на силу.</li>
+        <li><code>float m_fToxinHitPart</code> - Часть урона, влияющая на уровень токсинов.</li>
+        <li><code>float m_fPsyHealthHitPart</code> - Часть урона, влияющая на психическое здоровье.</li>
+        <li><code>float m_fMoraleHitPart</code> - Часть урона, влияющая на мораль.</li>
+    </ul>
+    <h3>Конструкторы и методы структуры SConditionChangeV</h3>
+    <ul>
+        <li><code>SConditionChangeV()</code> - Конструктор структуры.</li>
+        <li><code>void load(LPCSTR sect, LPCSTR prefix)</code> - Загрузка параметров из секции конфигурационного файла.
+        </li>
+    </ul>
+</div>
